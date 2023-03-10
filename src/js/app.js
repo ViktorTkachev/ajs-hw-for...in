@@ -1,19 +1,19 @@
 function orderByProps(obj, sortProps) {
   const result = [];
+  let remainingProps = [];
 
-  // Add properties in the sortProps array
-  for (const prop of sortProps) {
+  for (const prop in obj) {
     if (Object.prototype.hasOwnProperty.call(obj, prop)) {
-      result.push({ key: prop, value: obj[prop] });
+      if (sortProps.includes(prop) === false) {
+        remainingProps.push(prop);
+      }
     }
   }
 
-  // Add remaining properties in alphabetical order
-  const remainingProps = Object.keys(obj).sort();
+  remainingProps = [...sortProps, ...remainingProps.sort()];
+
   for (const prop of remainingProps) {
-    if (sortProps.includes(prop) === false) {
-      result.push({ key: prop, value: obj[prop] });
-    }
+    result.push({ key: prop, value: obj[prop] });
   }
 
   return result;
